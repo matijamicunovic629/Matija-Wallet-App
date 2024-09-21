@@ -1,7 +1,10 @@
 import { Divider, Flex, Heading, IconButton } from '@chakra-ui/react';
 import { useState } from 'react';
-import { FiHash, FiLayout, FiMenu, FiSettings, FiUser } from 'react-icons/fi';
+import { FiArrowUp, FiHome, FiMenu } from 'react-icons/fi';
 import NavItem from '../NavItem';
+import { MdOutlineSwapVerticalCircle } from 'react-icons/md';
+import { FaArrowsTurnToDots } from 'react-icons/fa6';
+import { AiOutlineCodeSandbox } from 'react-icons/ai';
 
 const SideBar = () => {
   const [navSize, changeNavSize] = useState('large');
@@ -16,6 +19,7 @@ const SideBar = () => {
       w={navSize == 'small' ? '6rem' : '15rem'}
       flexDir="column"
       justifyContent="space-between"
+      display={{ base: 'none', md: 'flex' }}
       color="white"
     >
       <Flex
@@ -26,7 +30,7 @@ const SideBar = () => {
       >
         <IconButton
           aria-label=" Menu database"
-          color="yellow.400"
+          color="violet.hamburger"
           background="none"
           mt={5}
           _hover={{ background: 'none' }}
@@ -36,13 +40,29 @@ const SideBar = () => {
             else changeNavSize('small');
           }}
         />
-        <NavItem navSize={navSize} icon={FiHash} title="Assets" />
-        <NavItem navSize={navSize} icon={FiSettings} title="Send" />
-        <NavItem navSize={navSize} icon={FiUser} title="Swap" disabled={true} />
+        <NavItem navSize={navSize} icon={FiHome} title="Assets" active={true} />
+        <Divider
+          borderColor={'gray.divider'}
+          mt={'1rem'}
+          display={navSize == 'small' ? 'none' : 'flex'}
+        />
+        <NavItem navSize={navSize} icon={FiArrowUp} title="Send" />
         <NavItem
           navSize={navSize}
-          icon={FiLayout}
+          icon={MdOutlineSwapVerticalCircle}
+          title="Swap"
+          disabled={true}
+        />
+        <NavItem
+          navSize={navSize}
+          icon={FaArrowsTurnToDots}
           title="Bridge"
+          disabled={true}
+        />
+        <NavItem
+          navSize={navSize}
+          icon={AiOutlineCodeSandbox}
+          title="Stake"
           disabled={true}
         />
       </Flex>
@@ -54,7 +74,10 @@ const SideBar = () => {
         alignItems={navSize == 'small' ? 'center' : 'flex-start'}
         mb={4}
       >
-        <Divider display={navSize == 'small' ? 'none' : 'flex'} />
+        <Divider
+          borderColor={'gray.divider'}
+          display={navSize == 'small' ? 'none' : 'flex'}
+        />
         <Flex mt={4} align="center">
           <Flex
             flexDir="column"

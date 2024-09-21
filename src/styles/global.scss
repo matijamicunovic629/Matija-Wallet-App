@@ -1,0 +1,21 @@
+html, body {
+  overflow: hidden;
+  background: #141518 !important;
+  color: white !important;
+}
+
+.login-page-container {
+  background-image: url('/public/login-bg.svg');
+  background-position: center;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .connect-button-wrapper {
+    display: flex;
+    justify-content: center;
+  }
+
+}

@@ -1,3 +1,4 @@
+import { Box, Heading, Link } from '@chakra-ui/react';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { useAccount } from 'wagmi';
 import { useEffect } from 'react';
@@ -14,9 +15,29 @@ const LoginPage = () => {
   }, [isConnected, navigate]);
 
   return (
-    <div>
-      <ConnectButton />
-      {isConnected ? 'true' : 'false'}
+    <div className="login-page-container">
+      <Box w="100%">
+        <Heading
+          as="h1"
+          mb={['1rem', '2rem', '2rem', '2rem']}
+          color="white"
+          fontSize={['2rem', '2rem', '3rem', '4rem']}
+          textAlign="center"
+          p="1rem 2rem"
+        >
+          Welcome to &nbsp;
+          <Link
+            href="https://github.com/matijamicunovic629"
+            isExternal
+            color="teal.500"
+          >
+            Matija Wallet
+          </Link>
+        </Heading>
+        <div className="connect-button-wrapper">
+          <ConnectButton />
+        </div>
+      </Box>
     </div>
   );
 };

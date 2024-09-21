@@ -5,7 +5,7 @@ interface NavItemProps {
   navSize?: string;
   title?: string;
   icon?: IconType;
-  active?: string;
+  active?: boolean;
   disabled?: boolean;
 }
 
@@ -20,12 +20,14 @@ const NavItem = ({ navSize, title, icon, active, disabled }: NavItemProps) => {
     >
       <Menu placement="right">
         <Link
-          backgroundColor={active && '#212927'}
+          backgroundColor={active ? 'violet.accentBgColor' : ''}
           p={3}
           w={navSize == 'small' ? '' : '100%'}
           borderRadius={8}
           _hover={
-            disabled ? {} : { textDecor: 'none', backgroundColor: '#212927' }
+            disabled
+              ? {}
+              : { textDecor: 'none', backgroundColor: 'violet.accentBgColor' }
           }
           // w={navSize == "large" && "100%"}
         >
@@ -34,9 +36,13 @@ const NavItem = ({ navSize, title, icon, active, disabled }: NavItemProps) => {
               <Icon
                 as={icon}
                 fontSize="xl"
-                color={active ? 'gray.900' : 'blueviolet'}
+                color={active ? 'violet.accentColor' : 'white'}
               />
-              <Text ml={5} display={navSize == 'small' ? 'none' : 'flex'}>
+              <Text
+                ml={5}
+                display={navSize == 'small' ? 'none' : 'flex'}
+                color={active ? 'violet.selectedTextColor' : 'white'}
+              >
                 {title}
               </Text>
             </Flex>

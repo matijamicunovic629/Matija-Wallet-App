@@ -1,5 +1,5 @@
 import { ChakraProvider } from '@chakra-ui/react';
-import { theme } from './styles/theme';
+import { chakraTheme } from './styles/chakraTheme.ts';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import LoginPage from './pages/login';
 import UserLayout from './layouts/UserLayout';
@@ -7,11 +7,12 @@ import HomePage from './pages/home';
 import ProtectedRoute from './components/ProtectedRoute';
 import { AuthProvider } from './contexts/AuthContext';
 import WalletProvider from './providers/WalletProvider.tsx';
+import './styles/global.scss';
 
 function App() {
   return (
     <BrowserRouter>
-      <ChakraProvider theme={theme}>
+      <ChakraProvider theme={chakraTheme}>
         <AuthProvider>
           <WalletProvider>
             <UserLayout>
