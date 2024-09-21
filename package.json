@@ -13,7 +13,7 @@
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist",
     "generate-pwa-assets": "pwa-assets-generator",
-    "prepare": "husky install"
+    "prepare": "husky"
   },
   "dependencies": {
     "@chakra-ui/react": "^2.8.2",
