@@ -1,14 +1,14 @@
 import { LayoutProps } from '../types';
 import { Flex, SimpleGrid } from '@chakra-ui/react';
 import SideBar from '../components/SideBar';
-import { useAuth } from '../context/AuthContext.tsx';
+import { useAccount } from 'wagmi';
 
 const UserLayout = ({ children }: LayoutProps) => {
-  const { isAuthenticated } = useAuth();
+  const { isConnected } = useAccount();
 
   return (
     <div>
-      {isAuthenticated ? (
+      {isConnected ? (
         <Flex direction="column">
           <Flex w="100%" maxWidth={1480} h="auto">
             <SideBar />

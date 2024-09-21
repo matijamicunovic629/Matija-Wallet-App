@@ -1,7 +1,12 @@
+import { ConnectButton } from '@rainbow-me/rainbowkit';
+
 const HomePage = () => {
   return (
     <>
-      <div>HomePAGE</div>
+      <div>
+        <ConnectButton />
+        HomePAGE
+      </div>
     </>
   );
 };
