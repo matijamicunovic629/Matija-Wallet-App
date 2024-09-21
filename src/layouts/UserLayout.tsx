@@ -17,8 +17,11 @@ const UserLayout = ({ children }: LayoutProps) => {
               <Flex float="right" p="10px 10px 0px 0px">
                 <ConnectButton />
               </Flex>
-
-              <Box w="100%" p="4rem 1rem">
+              <Box
+                w="100%"
+                className="main-wrapper"
+                p={['3rem 1rem', '4rem 2rem', '4rem 3rem', '4rem 4rem']}
+              >
                 {children}
               </Box>
             </Box>

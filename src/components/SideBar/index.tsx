@@ -30,7 +30,7 @@ const SideBar = () => {
       >
         <IconButton
           aria-label=" Menu database"
-          color="violet.hamburger"
+          color="main.hamburger"
           background="none"
           mt={5}
           _hover={{ background: 'none' }}
@@ -40,9 +40,9 @@ const SideBar = () => {
             else changeNavSize('small');
           }}
         />
-        <NavItem navSize={navSize} icon={FiHome} title="Assets" active={true} />
+        <NavItem navSize={navSize} icon={FiHome} title="Home" active={true} />
         <Divider
-          borderColor={'gray.divider'}
+          borderColor={'main.divider'}
           mt={'1rem'}
           display={navSize == 'small' ? 'none' : 'flex'}
         />
@@ -75,7 +75,7 @@ const SideBar = () => {
         mb={4}
       >
         <Divider
-          borderColor={'gray.divider'}
+          borderColor={'main.divider'}
           display={navSize == 'small' ? 'none' : 'flex'}
         />
         <Flex mt={4} align="center">

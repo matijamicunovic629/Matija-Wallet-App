@@ -1,7 +1,39 @@
-html, body {
-  overflow: hidden;
-  background: #141518 !important;
-  color: white !important;
+/* Hide scrollbar for IE, Edge and Firefox */
+html {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+html::-webkit-scrollbar {
+  display: none;  /* Chrome, Safari and Opera */
+}
+
+::-webkit-scrollbar {
+  width: 0px;
+  height: 0px;
+}
+
+.flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.flex-end {
+  display: flex;
+  align-items: center;
+  justify-content: end;
+}
+
+.flex-start {
+  display: flex;
+  align-items: center;
+  justify-content: start;
+}
+
+.main-wrapper {
+  height: 100vh;
+  overflow-y: auto;
 }
 
 .login-page-container {
@@ -9,6 +41,7 @@ html, body {
   background-position: center;
   width: 100vw;
   height: 100vh;
+  overflow-y: scroll;
   display: flex;
   align-items: center;
   justify-content: center;
