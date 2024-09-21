@@ -7,9 +7,17 @@ interface NavItemProps {
   icon?: IconType;
   active?: boolean;
   disabled?: boolean;
+  onClick?: () => void;
 }
 
-const NavItem = ({ navSize, title, icon, active, disabled }: NavItemProps) => {
+const NavItem = ({
+  navSize,
+  title,
+  icon,
+  active,
+  disabled,
+  onClick,
+}: NavItemProps) => {
   return (
     <Flex
       mt={30}
@@ -31,7 +39,7 @@ const NavItem = ({ navSize, title, icon, active, disabled }: NavItemProps) => {
           }
           // w={navSize == "large" && "100%"}
         >
-          <MenuButton w="100%">
+          <MenuButton w="100%" onClick={onClick}>
             <Flex>
               <Icon
                 as={icon}

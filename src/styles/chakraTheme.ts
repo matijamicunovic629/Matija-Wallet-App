@@ -15,8 +15,12 @@ export const chakraTheme = extendTheme({
       color: 'white',
       secondaryColor: 'gray',
       divider: '#393b3f',
+      modalSubBlock: '#1b1c20',
       'divider.dark': '#232325',
       successColor: '#0dda75',
+      successBgColor: '#00ffbf1a',
+      failedColor: '#dc4b4b',
+      failedBgColor: '#eb272738',
       hamburger: '#c9b2ff',
       accentColor: '#862cf4',
       navSelectedTextColor: '#b375ff',
@@ -84,6 +88,30 @@ export const chakraTheme = extendTheme({
           bg: '#141518',
         },
       }),
+    },
+    Input: {
+      baseStyle: {
+        // Default focus styles
+        focusBorderColor: 'blue.500',
+        errorBorderColor: 'red.500',
+      },
+      defaultProps: {
+        size: 'lg', // Default size of the input
+        variant: 'outline', // Default variant of the input
+        // Any other default props can go here
+      },
+      variants: {
+        outline: {
+          field: {
+            borderColor: 'main.divider',
+            _focus: {
+              boxShadow: 'none',
+              borderColor: 'main.accentColor',
+            },
+          },
+        },
+        // Define other variants as needed
+      },
     },
   },
 });

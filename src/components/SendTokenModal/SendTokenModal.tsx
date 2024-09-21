@@ -1,5 +1,4 @@
 import {
-  Button,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -8,29 +7,38 @@ import {
   ModalHeader,
   ModalOverlay,
   useBreakpointValue,
-  useDisclosure,
 } from '@chakra-ui/react';
+import useSendTokenModalStore from '../../store/useSendTokenModalStore.ts';
+import TransactionStatusStep from './TransactionStatusStep.tsx';
+import InputAmountStep from './InputAmountStep.tsx';
+import PreviewStep from './PreviewStep.tsx';
 
 const SendTokenModal = () => {
-  const { isOpen, onClose } = useDisclosure();
+  // const { isOpen, onClose } = useDisclosure();
+  const { isOpen, closeModal } = useSendTokenModalStore();
+
   const modalSize = useBreakpointValue({ base: 'full', md: 'md' });
   const modalFullScreen = useBreakpointValue({ base: true, md: false });
 
   return (
     <>
-      <Modal isOpen={isOpen} onClose={onClose} size={modalSize} isCentered>
+      <Modal
+        isOpen={isOpen}
+        onClose={() => closeModal()}
+        size={modalSize}
+        isCentered
+      >
         <ModalOverlay />
         <ModalContent minHeight={modalFullScreen ? '100vh' : 'auto'}>
           <ModalHeader>Send Token</ModalHeader>
           <ModalCloseButton />
-          <ModalBody>{/* Your form or content goes here */}</ModalBody>
+          <ModalBody>
+            <InputAmountStep />
+            <PreviewStep />
+            <TransactionStatusStep />
+          </ModalBody>
 
-          <ModalFooter>
-            <Button colorScheme="blue" mr={3} onClick={onClose}>
-              Close
-            </Button>
-            <Button variant="ghost">Send</Button>
-          </ModalFooter>
+          <ModalFooter></ModalFooter>
         </ModalContent>
       </Modal>
     </>

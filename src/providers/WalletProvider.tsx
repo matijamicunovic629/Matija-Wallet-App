@@ -8,7 +8,7 @@ import { rainbowKitTheme } from '../styles/chakraTheme.ts';
 
 const config = getDefaultConfig({
   appName: 'Matija Wallet',
-  projectId: '111',
+  projectId: '78547180669ff5ad9842a42256608cac',
   chains: [sepolia],
 });
 

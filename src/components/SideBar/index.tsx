@@ -5,9 +5,15 @@ import NavItem from '../NavItem';
 import { MdOutlineSwapVerticalCircle } from 'react-icons/md';
 import { FaArrowsTurnToDots } from 'react-icons/fa6';
 import { AiOutlineCodeSandbox } from 'react-icons/ai';
+import useSendTokenModalStore from '../../store/useSendTokenModalStore.ts';
 
 const SideBar = () => {
   const [navSize, changeNavSize] = useState('large');
+  const { openModal: openSendTokenModal } = useSendTokenModalStore();
+
+  const onClickSendTokenMenu = () => {
+    openSendTokenModal();
+  };
 
   return (
     <Flex
@@ -46,7 +52,12 @@ const SideBar = () => {
           mt={'1rem'}
           display={navSize == 'small' ? 'none' : 'flex'}
         />
-        <NavItem navSize={navSize} icon={FiArrowUp} title="Send" />
+        <NavItem
+          navSize={navSize}
+          icon={FiArrowUp}
+          title="Send"
+          onClick={onClickSendTokenMenu}
+        />
         <NavItem
           navSize={navSize}
           icon={MdOutlineSwapVerticalCircle}
