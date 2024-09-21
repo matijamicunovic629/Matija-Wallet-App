@@ -1,5 +1,5 @@
-import { defineConfig } from 'vite'
-import { VitePWA } from 'vite-plugin-pwa'
+import { defineConfig } from 'vite';
+import { VitePWA } from 'vite-plugin-pwa';
 
 export default defineConfig({
   plugins: [
@@ -15,19 +15,19 @@ export default defineConfig({
           {
             src: 'MB-192x192.png',
             sizes: '192x192',
-            type: 'image/png'
+            type: 'image/png',
           },
           {
             src: 'MB-512x512.png',
             sizes: '512x512',
-            type: 'image/png'
-          }
-        ]
-      }
-    })
+            type: 'image/png',
+          },
+        ],
+      },
+    }),
   ],
   server: {
     host: '0.0.0.0',
     port: 5173,
-  }
-})
+  },
+});

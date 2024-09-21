@@ -13,7 +13,7 @@
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist",
     "generate-pwa-assets": "pwa-assets-generator",
-    "prepare": "husky"
+    "prepare": "husky install"
   },
   "dependencies": {
     "@chakra-ui/react": "^2.8.2",
@@ -36,16 +36,19 @@
     "eslint-plugin-react-hooks": "^4.6.2",
     "eslint-plugin-react-refresh": "^0.4.6",
     "gh-pages": "^6.1.0",
+    "husky": "^9.1.6",
+    "lint-staged": "^15.2.10",
     "prettier": "^3.3.3",
     "typescript": "^5.2.2",
     "vite": "^5.2.10",
     "vite-plugin-pwa": "^0.20.0"
   },
   "lint-staged": {
-    "*.{ts,tsx}": "eslint --cache --fix",
     "src/**/*.{js,jsx,ts,tsx,json,css,md}": [
       "prettier --write",
+      "eslint --fix",
       "git add"
-    ]
+    ],
+    "*.{ts,tsx}": "eslint --cache --fix"
   }
 }
