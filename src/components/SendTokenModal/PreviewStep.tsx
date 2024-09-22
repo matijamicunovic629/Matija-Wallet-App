@@ -58,7 +58,7 @@ const PreviewStep = () => {
     useSendTokenModalStore();
   const {
     isLoading: isEstimationLoading,
-    data: { gasEstimate, hasSufficientNativeBalance, gasLimit },
+    data: { gasEstimate, hasSufficientNativeBalance, gasLimit, gasPrice },
   } = useGasEstimation(tokenInfo.tokenAddress, sendAddress, sendAmount);
 
   const { mutate: sendTransactionMutate } = useSendTransactionMutation();
@@ -79,6 +79,7 @@ const PreviewStep = () => {
         sendAmount,
         signer,
         gasLimit,
+        gasPrice,
       },
       {
         onSuccess: (receipt) => {

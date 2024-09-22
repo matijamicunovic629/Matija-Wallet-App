@@ -5,6 +5,7 @@ import { useAccount } from 'wagmi';
 import { ethers } from 'ethers';
 import { useEthersProvider } from './useEthersProvider.ts';
 import { useCallback } from 'react';
+import { defaultGasLimit, defaultMaxPriorityFee } from '../constants';
 
 const useGasEstimation = (
   tokenAddress: EthereumAddressType | undefined,
@@ -32,18 +33,19 @@ const useGasEstimation = (
           toAddress,
           amountValue,
         ]),
-        gasLimit: 210000n, // Example static gas limit
+        gasLimit: defaultGasLimit, // Example static gas limit
       };
       // Fetch Current Gas Price
       const gasPriceData = await provider!.getFeeData();
       console.log('gasPriceData', gasPriceData);
-      const estimatedGas = (await provider?.estimateGas(tx)) ?? 0n;
-      console.log('estimatedGas', estimatedGas);
+      const estimatedGasLimit = (await provider?.estimateGas(tx)) ?? 0n;
+      console.log('estimatedGasLimit', estimatedGasLimit);
 
-      const maxPriorityFee = ethers.parseUnits('1.5', 'gwei');
+      const estimatedGasPrice =
+        (gasPriceData.gasPrice ?? 0n) + defaultMaxPriorityFee;
 
-      const estimatedGasCost =
-        estimatedGas * ((gasPriceData.gasPrice ?? 0n) + maxPriorityFee);
+      // I used defaultGasLimit instead of estimatedGasLimit, because it's testnet
+      const estimatedGasCost = defaultGasLimit * estimatedGasPrice;
 
       // Fetch Native Balance of From Address
       const nativeBalance =
@@ -57,7 +59,8 @@ const useGasEstimation = (
       }
 
       return {
-        gasLimit: estimatedGas,
+        gasLimit: defaultGasLimit, // estimatedGasLimit,
+        gasPrice: estimatedGasPrice,
         gasEstimate: ethers.formatEther(estimatedGasCost.toString()),
         hasSufficientNativeBalance,
       };
@@ -79,7 +82,8 @@ const useGasEstimation = (
     isLoading,
     refetch,
     data: data ?? {
-      gasEstimate: 0,
+      gasEstimate: 0n,
+      gasPrice: 0n,
       hasSufficientNativeBalance: true,
       gasLimit: 210000n,
     },

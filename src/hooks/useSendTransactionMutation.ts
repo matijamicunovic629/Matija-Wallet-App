@@ -8,6 +8,7 @@ interface mutationDataParams {
   sendAddress: EthereumAddressType | undefined;
   sendAmount: number;
   signer: JsonRpcSigner | undefined;
+  gasPrice: bigint;
   gasLimit: bigint;
 }
 
@@ -36,7 +37,8 @@ export const useSendTransactionMutation = () => {
           amountValue,
         ]),
         // gasPrice: ethers.parseUnits('10', 'gwei'),
-        gasLimit: 21762n, // Example static gas limit
+        gasPrice: data.gasPrice,
+        gasLimit: data.gasLimit, // Example static gas limit
         value: 0n,
       };
       const transactionResponse = await data.signer?.sendTransaction(tx);

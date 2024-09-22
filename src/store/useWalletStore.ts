@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { WalletTokenBalance, WalletTransaction } from '../types';
 import { Config } from '../constants';
+import { compareWalletAddresses } from '../utils';
 
 export interface WalletBalanceStoreState {
   matijaTokenBalance: number;
@@ -15,8 +16,11 @@ const useWalletStore = create<WalletBalanceStoreState>((set) => ({
   walletTokenBalances: [],
   walletTransactions: [],
   setWalletTokenBalances: (newBalances: WalletTokenBalance[]) => {
-    const newMatijaTokenBalance = newBalances.find(
-      (balanceItem) => balanceItem.tokenAddress === Config.MatijaTokenAddress,
+    const newMatijaTokenBalance = newBalances.find((balanceItem) =>
+      compareWalletAddresses(
+        balanceItem.tokenAddress,
+        Config.MatijaTokenAddress,
+      ),
     );
 
     set((prev) => ({

@@ -19,6 +19,24 @@ export const getTokenImgUrlByAddress = (address: string): string => {
 };
 
 /**
+ * Compares two wallet addresses in uppercase.
+ * @param address1 - The first wallet address.
+ * @param address2 - The second wallet address.
+ * @returns boolean - Returns true if the addresses are the same (case-insensitive), otherwise false.
+ */
+export const compareWalletAddresses = (
+  address1: string,
+  address2: string,
+): boolean => {
+  // Convert both addresses to uppercase.
+  const normalizedAddress1 = address1.toUpperCase();
+  const normalizedAddress2 = address2.toUpperCase();
+
+  // Compare the normalized addresses.
+  return normalizedAddress1 === normalizedAddress2;
+};
+
+/**
  * Formats a given Date object into a string with the format "MMM DD, YYYY, hh:mm A".
  *
  * @param {Date} date - The JavaScript Date object to format.

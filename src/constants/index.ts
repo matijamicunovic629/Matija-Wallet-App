@@ -1,4 +1,5 @@
 import { getTokenImgUrlByAddress } from '../utils';
+import { ethers } from 'ethers';
 
 export const MSG = {
   TransactionStatus: {
@@ -31,3 +32,6 @@ export const defaultTokenInfo = {
   logoUrl: getTokenImgUrlByAddress(Config.MatijaTokenAddress),
   decimals: 9,
 };
+
+export const defaultMaxPriorityFee = ethers.parseUnits('1.5', 'gwei');
+export const defaultGasLimit = 210000n;

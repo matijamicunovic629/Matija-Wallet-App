@@ -6,7 +6,7 @@ import {
   TransactionType,
   WalletTokenBalance,
 } from '../types';
-import { getTokenImgUrlByAddress } from '../utils';
+import { compareWalletAddresses, getTokenImgUrlByAddress } from '../utils';
 import { ethers } from 'ethers';
 
 class MoralisService {
@@ -270,10 +270,12 @@ class MoralisService {
 
       return response.raw.result.map((responseItem) => {
         return {
-          transactionType:
-            responseItem.from_address === address
-              ? TransactionType.Sent
-              : TransactionType.Received,
+          transactionType: compareWalletAddresses(
+            responseItem.from_address,
+            address,
+          )
+            ? TransactionType.Sent
+            : TransactionType.Received,
           transferAmount: Number(responseItem.value_decimal),
           fromAddress: responseItem.from_address as EthereumAddressType,
           toAddress: responseItem.to_address as EthereumAddressType,
