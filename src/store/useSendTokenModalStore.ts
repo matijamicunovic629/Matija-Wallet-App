@@ -9,8 +9,8 @@ export interface SendTokenModalState {
   sendAmount: number;
   sendAddress: EthereumAddressType | undefined;
   stepIndex: number;
-  openModal: (tokenInfo: TokenInfoType) => void;
-  nextStep: (isSuccess: boolean) => void;
+  openModal: (tokenInfo?: TokenInfoType) => void;
+  nextStep: (isSuccess?: boolean) => void;
   prevStep: () => void;
   closeModal: () => void;
   setSendAmount: (amount: number) => void;
