@@ -1,7 +1,7 @@
 import { Text, Box, Button, Heading } from '@chakra-ui/react';
 import FailedBadge from '../StatusBadges/failedBadge.tsx';
 import SuccessBadge from '../StatusBadges/successBadge.tsx';
-import { MSG } from '../../constants';
+import { defaultExplorerUrl, MSG } from '../../constants';
 import useSendTokenModalStore from '../../store/useSendTokenModalStore.ts';
 import { shrinkAddress } from '../../utils';
 import useWalletBalances from '../../hooks/useWalletBalances.ts';
@@ -14,8 +14,14 @@ const TransactionStatusStep = () => {
   const { refetch: refetchWalletBalances } = useWalletBalances(address);
   const { refetch: refetchWalletTransactions } = useWalletTransactions(address);
 
-  const { closeModal, isSuccess, tokenInfo, sendAddress, sendAmount } =
-    useSendTokenModalStore();
+  const {
+    closeModal,
+    transactionHash,
+    isSuccess,
+    tokenInfo,
+    sendAddress,
+    sendAmount,
+  } = useSendTokenModalStore();
 
   useEffect(() => {
     if (isSuccess) {
@@ -27,6 +33,10 @@ const TransactionStatusStep = () => {
 
   const handleOk = () => {
     closeModal();
+  };
+
+  const onClickViewTransaction = () => {
+    window.open(`${defaultExplorerUrl}tx/${transactionHash}`, '_blank');
   };
 
   const statusMessage = isSuccess
@@ -78,7 +88,12 @@ const TransactionStatusStep = () => {
         <Button w="100%" borderRadius="1rem" onClick={handleOk}>
           Ok
         </Button>
-        <Button w="100%" borderRadius="1rem" mt=".5rem">
+        <Button
+          w="100%"
+          borderRadius="1rem"
+          mt=".5rem"
+          onClick={onClickViewTransaction}
+        >
           View Transaction
         </Button>
       </Box>

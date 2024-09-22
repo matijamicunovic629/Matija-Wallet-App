@@ -5,6 +5,7 @@ import { defaultTokenInfo } from '../constants';
 export interface SendTokenModalState {
   isOpen: boolean;
   isSuccess: boolean;
+  transactionHash: string;
   tokenInfo: TokenInfoType;
   sendAmount: number;
   sendAddress: EthereumAddressType | undefined;
@@ -15,12 +16,14 @@ export interface SendTokenModalState {
   closeModal: () => void;
   setSendAmount: (amount: number) => void;
   setSendAddress: (address: EthereumAddressType) => void;
+  setTransactionHash: (txHash: string) => void;
 }
 
 const useSendTokenModalStore = create<SendTokenModalState>((set) => ({
   isOpen: false,
   isSuccess: false,
   stepIndex: 0,
+  transactionHash: '',
   tokenInfo: {
     ...defaultTokenInfo,
   },
@@ -37,12 +40,14 @@ const useSendTokenModalStore = create<SendTokenModalState>((set) => ({
       stepIndex: 0,
       tokenInfo,
       sendAmount: 0,
+      transactionHash: '',
       sendAddress: undefined,
     }),
   closeModal: () => set({ isOpen: false }),
   setSendAmount: (amount: number) => set({ sendAmount: amount }),
   setSendAddress: (address: EthereumAddressType) =>
     set({ sendAddress: address }),
+  setTransactionHash: (txHash: string) => set({ transactionHash: txHash }),
 }));
 
 export default useSendTokenModalStore;

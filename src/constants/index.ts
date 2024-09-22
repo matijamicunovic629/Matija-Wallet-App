@@ -35,5 +35,7 @@ export const defaultTokenInfo = {
   decimals: 9,
 };
 
+export const defaultExplorerUrl = `https://sepolia.etherscan.io/`;
+
 export const defaultMaxPriorityFee = ethers.parseUnits('1.5', 'gwei');
 export const defaultGasLimit = 210000n;

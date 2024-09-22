@@ -54,8 +54,14 @@ const PreviewStep = () => {
   const [isRejectedTransaction, setIsRejectedTransaction] = useState(false);
   const [isConfirming, setIsConfirming] = useState(false);
 
-  const { prevStep, nextStep, sendAddress, tokenInfo, sendAmount } =
-    useSendTokenModalStore();
+  const {
+    prevStep,
+    nextStep,
+    setTransactionHash,
+    sendAddress,
+    tokenInfo,
+    sendAmount,
+  } = useSendTokenModalStore();
   const {
     isLoading: isEstimationLoading,
     data: { gasEstimate, hasSufficientNativeBalance, gasLimit, gasPrice },
@@ -84,6 +90,7 @@ const PreviewStep = () => {
       {
         onSuccess: (receipt) => {
           setIsConfirming(false);
+          setTransactionHash(receipt?.hash ?? '');
           nextStep(true); // succeed
           console.log('success', receipt);
         },

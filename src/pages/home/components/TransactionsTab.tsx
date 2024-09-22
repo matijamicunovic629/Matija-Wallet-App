@@ -12,6 +12,7 @@ import { useAccount } from 'wagmi';
 import React, { useMemo } from 'react';
 import { TransactionRowProps, TransactionType } from '../../../types';
 import { formatDate, shrinkAddress } from '../../../utils';
+import { defaultExplorerUrl } from '../../../constants';
 
 const TokensHeaderItem = () => {
   return (
@@ -90,7 +91,9 @@ const TransactionRow = React.memo(({ item }: TransactionRowProps) => {
         justifyContent="end"
         color="main.secondaryColor"
       >
-        <Link>{shrinkAddress(item.txHash)}</Link>
+        <Link isExternal href={defaultExplorerUrl + `tx/${item.txHash}`}>
+          {shrinkAddress(item.txHash)}
+        </Link>
       </Box>
     </SimpleGrid>
   );
