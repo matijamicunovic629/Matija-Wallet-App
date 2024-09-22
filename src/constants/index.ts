@@ -1,7 +1,12 @@
+import { getTokenImgUrlByAddress } from '../utils';
+
 export const MSG = {
   TransactionStatus: {
     success: 'Transaction Confirmed',
     failed: 'Transaction Failed',
+  },
+  Error: {
+    RejectedTransaction: 'User Rejected Transaction',
   },
 };
 
@@ -18,4 +23,11 @@ export const unknownTokenImgUrl = '/public/unknown-token.jpeg';
 
 export const mapAddressToTokenImgUrl: Record<string, string> = {
   [Config.MatijaTokenAddress]: '/public/matija-token.png',
+};
+
+export const defaultTokenInfo = {
+  tokenAddress: Config.MatijaTokenAddress,
+  symbol: 'MTJ',
+  logoUrl: getTokenImgUrlByAddress(Config.MatijaTokenAddress),
+  decimals: 9,
 };

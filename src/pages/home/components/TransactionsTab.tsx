@@ -1,4 +1,17 @@
-import { Avatar, Box, Link, SimpleGrid, Text } from '@chakra-ui/react';
+import {
+  Avatar,
+  Box,
+  Link,
+  SimpleGrid,
+  Skeleton,
+  Stack,
+  Text,
+} from '@chakra-ui/react';
+import useWalletTransactions from '../../../hooks/useWalletTransactions.ts';
+import { useAccount } from 'wagmi';
+import React, { useMemo } from 'react';
+import { TransactionRowProps, TransactionType } from '../../../types';
+import { formatDate, shrinkAddress } from '../../../utils';
 
 const TokensHeaderItem = () => {
   return (
@@ -21,7 +34,26 @@ const TokensHeaderItem = () => {
   );
 };
 
-const TokenRowItem = () => {
+const TransactionRow = React.memo(({ item }: TransactionRowProps) => {
+  const { descriptionText, changedAmountText, changedAmountColorName } =
+    useMemo(() => {
+      const descriptionText =
+        item.transactionType === TransactionType.Sent
+          ? `To ${shrinkAddress(item.toAddress)}`
+          : `From: ${shrinkAddress(item.fromAddress)}`;
+
+      const prefix = item.transactionType === TransactionType.Sent ? '-' : '+';
+
+      return {
+        descriptionText,
+        changedAmountText: `${prefix} ${item.valueDecimal.toLocaleString()} ${item.tokenSymbol}`,
+        changedAmountColorName:
+          item.transactionType === TransactionType.Received
+            ? 'main.successColor'
+            : '',
+      };
+    }, [item]);
+
   return (
     <SimpleGrid
       columns={{ base: 2, md: 4 }}
@@ -34,26 +66,23 @@ const TokenRowItem = () => {
       }}
     >
       <Box className="flex-start">
-        <Avatar
-          boxSize={['2rem', '2.5rem']}
-          src="/public/ethereum_logo.png"
-        ></Avatar>
+        <Avatar boxSize={['2rem', '2.5rem']} src={item.logoUrl}></Avatar>
         <Box pl={['.8rem', '1rem']}>
-          <Text>Sent</Text>
+          <Text>{item.transactionType}</Text>
           <Text fontSize="sm" color="main.secondaryColor">
-            To 0xa8df…c78c
+            {descriptionText}
           </Text>
         </Box>
       </Box>
-      <Box className="flex-end" color="main.successColor" fontSize="md">
-        + 432.23 MTJ
+      <Box className="flex-end" color={changedAmountColorName} fontSize="md">
+        {changedAmountText}
       </Box>
       <Box
         className="flex-end"
         display={{ base: 'none', md: 'flex' }}
         color="main.secondaryColor"
       >
-        Sep 19, 2024, 06:45 PM
+        {formatDate(item.time)}
       </Box>
       <Box
         display={{ base: 'none', md: 'flex' }}
@@ -61,24 +90,30 @@ const TokenRowItem = () => {
         justifyContent="end"
         color="main.secondaryColor"
       >
-        <Link>0xasdf..asd</Link>
+        <Link>{shrinkAddress(item.txHash)}</Link>
       </Box>
     </SimpleGrid>
   );
-};
+});
 
 const TransactionsTab = () => {
+  const { address } = useAccount();
+  const { isLoading, data: walletTransactions } =
+    useWalletTransactions(address);
+
   return (
     <div>
       <TokensHeaderItem />
-      <TokenRowItem />
-      <TokenRowItem />
-      <TokenRowItem />
-      <TokenRowItem />
-      <TokenRowItem />
-      <TokenRowItem />
-      <TokenRowItem />
-      <TokenRowItem />
+      <Stack hidden={!isLoading}>
+        <Skeleton height="3rem"></Skeleton>
+        <Skeleton height="3rem"></Skeleton>
+      </Stack>
+      {walletTransactions.map((walletTransaction, index) => (
+        <TransactionRow
+          item={walletTransaction}
+          key={`transaction-row-${index}`}
+        />
+      ))}
     </div>
   );
 };

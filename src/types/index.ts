@@ -25,6 +25,41 @@ export type WalletTransaction = {
   fromAddress: EthereumAddressType;
   toAddress: EthereumAddressType;
   tokenSymbol: string;
+  logoUrl: string;
+  value: string;
+  valueDecimal: number;
   time: Date;
   txHash: string;
 };
+
+export interface TokenRowProps {
+  item: WalletTokenBalance;
+  onClick: (item: WalletTokenBalance) => void;
+}
+
+export interface TransactionRowProps {
+  item: WalletTransaction;
+}
+
+export interface TokenInfoType {
+  tokenAddress: EthereumAddressType;
+  symbol: string;
+  logoUrl: string;
+  decimals: number;
+}
+
+export interface AvailableTokenRowProps {
+  tokenInfo: TokenInfoType;
+  balance: number;
+  isLoading: boolean;
+}
+
+export interface PreviewDetailItemProps {
+  title: string;
+  value: string;
+  isLoading?: boolean;
+}
+
+export interface TransactionError extends Error {
+  code?: string;
+}

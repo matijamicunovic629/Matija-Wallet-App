@@ -1,4 +1,20 @@
-import { Avatar, Box, SimpleGrid, Text } from '@chakra-ui/react';
+import {
+  Avatar,
+  Box,
+  SimpleGrid,
+  Skeleton,
+  Stack,
+  Text,
+} from '@chakra-ui/react';
+import { useAccount } from 'wagmi';
+import useWalletBalances from '../../../hooks/useWalletBalances.ts';
+import {
+  TokenInfoType,
+  TokenRowProps,
+  WalletTokenBalance,
+} from '../../../types';
+import React from 'react';
+import useSendTokenModalStore from '../../../store/useSendTokenModalStore.ts';
 
 const TokensHeaderItem = () => {
   return (
@@ -21,7 +37,7 @@ const TokensHeaderItem = () => {
   );
 };
 
-const TokenRowItem = () => {
+const TokenRow = React.memo(({ item, onClick }: TokenRowProps) => {
   return (
     <SimpleGrid
       columns={{ base: 2, md: 4 }}
@@ -32,15 +48,13 @@ const TokenRowItem = () => {
         cursor: 'pointer',
         backgroundColor: 'main.accentTransparentBgColor',
       }}
+      onClick={() => onClick(item)}
     >
       <Box className="flex-start">
-        <Avatar
-          boxSize={['2rem', '2.5rem']}
-          src="/public/ethereum_logo.png"
-        ></Avatar>
-        <Text pl={['.8rem', '1rem']}>Sepolia ETH</Text>
+        <Avatar boxSize={['2rem', '2.5rem']} src={item.logoUrl}></Avatar>
+        <Text pl={['.8rem', '1rem']}>{item.name}</Text>
       </Box>
-      <Box className="flex-end">0.432</Box>
+      <Box className="flex-end">{item.balanceDecimal.toLocaleString()}</Box>
       <Box className="flex-end" display={{ base: 'none', md: 'flex' }}>
         ---
       </Box>
@@ -53,16 +67,36 @@ const TokenRowItem = () => {
       </Box>
     </SimpleGrid>
   );
-};
+});
 
 const TokensTab = () => {
+  const { address } = useAccount();
+  const { isLoading, data: walletTokenBalances } = useWalletBalances(address);
+  const { openModal } = useSendTokenModalStore();
+
+  const handleClickRow = (item: WalletTokenBalance) => {
+    openModal({
+      tokenAddress: item.tokenAddress,
+      symbol: item.symbol,
+      logoUrl: item.logoUrl,
+      decimals: item.decimals,
+    } as TokenInfoType);
+  };
+
   return (
     <div>
       <TokensHeaderItem />
-      <TokenRowItem />
-      <TokenRowItem />
-      <TokenRowItem />
-      <TokenRowItem />
+      <Stack hidden={!isLoading}>
+        <Skeleton height="3rem"></Skeleton>
+        <Skeleton height="3rem"></Skeleton>
+      </Stack>
+      {walletTokenBalances.map((tokenBalanceItem, index) => (
+        <TokenRow
+          item={tokenBalanceItem}
+          onClick={handleClickRow}
+          key={`balance-row-${index}`}
+        />
+      ))}
     </div>
   );
 };

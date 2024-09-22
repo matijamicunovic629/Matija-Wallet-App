@@ -4,20 +4,19 @@ import { EthereumAddressType } from '../types';
 import { Config } from '../constants';
 import useWalletStore from '../store/useWalletStore.ts';
 
-const useWalletBalances = (address: EthereumAddressType | undefined) => {
-  const setWalletTokenBalances = useWalletStore(
-    (state) => state.setWalletTokenBalances,
+const useWalletTransactions = (address: EthereumAddressType | undefined) => {
+  const setWalletTransactions = useWalletStore(
+    (state) => state.setWalletTransactions,
   );
 
   const enabled = !!address;
   const { isLoading, refetch, data } = useQuery({
-    queryKey: ['get-wallet-balances', address],
+    queryKey: ['get-wallet-transactions', address],
     queryFn: async () => {
-      const result =
-        await MoralisService.getInstance().getWalletERC20TokenBalances(
-          address!,
-        );
-      setWalletTokenBalances(result);
+      const result = await MoralisService.getInstance().getERC20TokenTransfers(
+        address!,
+      );
+      setWalletTransactions(result);
       return result;
     },
     enabled,
@@ -30,4 +29,4 @@ const useWalletBalances = (address: EthereumAddressType | undefined) => {
     data: data ?? [],
   };
 };
-export default useWalletBalances;
+export default useWalletTransactions;

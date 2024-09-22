@@ -1,4 +1,5 @@
 import { mapAddressToTokenImgUrl, unknownTokenImgUrl } from '../constants';
+import moment from 'moment/moment';
 
 const ethAddressRegex = /^0x[a-fA-F0-9]{40}$/;
 
@@ -15,4 +16,64 @@ export const isValidWalletAddress = (address: string): boolean => {
  */
 export const getTokenImgUrlByAddress = (address: string): string => {
   return mapAddressToTokenImgUrl[address] ?? unknownTokenImgUrl;
+};
+
+/**
+ * Formats a given Date object into a string with the format "MMM DD, YYYY, hh:mm A".
+ *
+ * @param {Date} date - The JavaScript Date object to format.
+ * @returns {string} - The formatted date string.
+ *
+ * Example usage:
+ * const date = new Date('2024-09-19T18:45:00');
+ * console.log(formatDate(date)); // Output: Sep 19, 2024, 06:45 PM
+ */
+export const formatDate = (date: Date | string) => {
+  return moment(date).format('MMM DD, YYYY, hh:mm A');
+};
+
+/**
+ * Shortens an Ethereum address by keeping the first 6 and last 4 characters,
+ * and replacing the middle with ellipses ('...').
+ *
+ * @param {string} address - The Ethereum address to shorten.
+ * @returns {string} - The shortened address, or the original address if it's less than 10 characters long.
+ *
+ * Example usage:
+ * const fullAddress = "0x1234567890abcdef1234567890abcdef12345678";
+ * console.log(shrinkAddress(fullAddress)); // Output: 0x1234...5678
+ */
+export const shrinkAddress = (address: string): string => {
+  if (!address || address.length < 10) {
+    return address; // Return as-is if too short
+  }
+  return `${address.slice(0, 6)}...${address.slice(-4)}`;
+};
+
+export const formatNumberByFrac = (
+  num: number | undefined,
+  fixedCount: number = 2,
+): string => {
+  if (num === undefined) return '0';
+
+  const threshold = 0.01;
+  const minThreshold = 0.000001;
+  num = parseFloat(num.toString());
+
+  const getFixedNum = (num: number, fixedCount: number): string => {
+    const multipleValue = 10 ** fixedCount;
+    return (Math.round(num * multipleValue) / multipleValue).toString();
+  };
+
+  if (
+    Number.isInteger(num) ||
+    (Math.abs(num) < threshold && Math.abs(num) > minThreshold)
+  ) {
+    const lengthAfterDecimal = Math.ceil(Math.log10(1 / num));
+    if (num > 0 && lengthAfterDecimal > 0) {
+      return getFixedNum(num, lengthAfterDecimal + 2);
+    }
+  }
+
+  return getFixedNum(num, fixedCount);
 };

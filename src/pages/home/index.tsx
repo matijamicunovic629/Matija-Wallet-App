@@ -13,7 +13,6 @@ import TransactionsTab from './components/TransactionsTab';
 import SendTokenModal from '../../components/SendTokenModal/SendTokenModal';
 import { useAccount } from 'wagmi';
 import useWalletBalances from '../../hooks/useWalletBalances.ts';
-import { useEffect } from 'react';
 import useWalletStore from '../../store/useWalletStore.ts';
 
 const HomePage = () => {
@@ -21,11 +20,7 @@ const HomePage = () => {
   const matijaTokenBalance = useWalletStore(
     (state) => state.matijaTokenBalance,
   );
-  const { isLoading, data } = useWalletBalances(address);
-
-  useEffect(() => {
-    console.log('data, isLoading', data, isLoading);
-  }, [data, isLoading]);
+  const { isLoading: isBalanceLoading } = useWalletBalances(address);
 
   return (
     <div>
@@ -38,13 +33,13 @@ const HomePage = () => {
           Balance
         </Text>
         <Skeleton
-          isLoaded={!isLoading}
+          isLoaded={!isBalanceLoading}
           minHeight="5rem"
-          w="200px"
+          minWidth="200px"
           display="inline-block"
         >
           <Box as="span" fontSize={['2rem', '2rem', '4rem', '4rem']}>
-            {matijaTokenBalance} MTJ
+            {matijaTokenBalance.toLocaleString()} MTJ
           </Box>
         </Skeleton>
       </Box>

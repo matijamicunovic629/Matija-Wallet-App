@@ -3,17 +3,35 @@ import FailedBadge from '../StatusBadges/failedBadge.tsx';
 import SuccessBadge from '../StatusBadges/successBadge.tsx';
 import { MSG } from '../../constants';
 import useSendTokenModalStore from '../../store/useSendTokenModalStore.ts';
+import { shrinkAddress } from '../../utils';
+import useWalletBalances from '../../hooks/useWalletBalances.ts';
+import { useAccount } from 'wagmi';
+import useWalletTransactions from '../../hooks/useWalletTransactions.ts';
+import { useEffect } from 'react';
 
 const TransactionStatusStep = () => {
-  const { closeModal } = useSendTokenModalStore();
-  const isSuccess = true;
-  const statusMessage = isSuccess
-    ? MSG.TransactionStatus.success
-    : MSG.TransactionStatus.failed;
+  const { address } = useAccount();
+  const { refetch: refetchWalletBalances } = useWalletBalances(address);
+  const { refetch: refetchWalletTransactions } = useWalletTransactions(address);
+
+  const { closeModal, isSuccess, tokenInfo, sendAddress, sendAmount } =
+    useSendTokenModalStore();
+
+  useEffect(() => {
+    if (isSuccess) {
+      // refresh all wallet balances and transactions
+      refetchWalletBalances();
+      refetchWalletTransactions();
+    }
+  }, []);
 
   const handleOk = () => {
     closeModal();
   };
+
+  const statusMessage = isSuccess
+    ? MSG.TransactionStatus.success
+    : MSG.TransactionStatus.failed;
 
   return (
     <div>
@@ -41,7 +59,7 @@ const TransactionStatusStep = () => {
               className="flex-center"
               color="main.secondaryColor"
             >
-              you sent to 0x323..asd
+              you sent to {shrinkAddress(sendAddress as string)}
             </Heading>
             <Text
               className="flex-center"
@@ -49,7 +67,7 @@ const TransactionStatusStep = () => {
               fontSize={'2rem'}
               fontWeight="bold"
             >
-              123 MTJ
+              {`${sendAmount.toLocaleString()} ${tokenInfo.symbol}`}
             </Text>
           </Box>
         )}

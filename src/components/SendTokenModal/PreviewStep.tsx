@@ -1,13 +1,20 @@
-import { Box, Button, Flex, Heading, SimpleGrid } from '@chakra-ui/react';
+import { Alert, AlertIcon, AlertTitle, Box, Button, Flex, Heading, SimpleGrid, Skeleton } from '@chakra-ui/react';
 import SendBadge from '../StatusBadges/sendBadge.tsx';
 import useSendTokenModalStore from '../../store/useSendTokenModalStore.ts';
+import { useAccount } from 'wagmi';
+import { formatNumberByFrac, shrinkAddress } from '../../utils';
+import { EthereumAddressType, PreviewDetailItemProps, TransactionError } from '../../types';
+import useGasEstimation from '../../hooks/useGasEstimation.ts';
+import { useEthersSigner } from '../../hooks/useEthersProvider.ts';
+import { useSendTransactionMutation } from '../../hooks/useSendTransactionMutation.ts';
+import { useState } from 'react';
+import { MSG } from '../../constants';
 
-interface PreviewDetailItemProps {
-  title: string;
-  value: string;
-}
-
-const PreviewDetailItem = ({ title, value }: PreviewDetailItemProps) => {
+const PreviewDetailItem = ({
+  title,
+  value,
+  isLoading,
+}: PreviewDetailItemProps) => {
   return (
     <SimpleGrid
       columns={2}
@@ -19,20 +26,61 @@ const PreviewDetailItem = ({ title, value }: PreviewDetailItemProps) => {
       fontWeight="bold"
     >
       <Box color="main.secondaryColor">{title}</Box>
-      <Box textAlign="right">{value}</Box>
+      <Box textAlign="right" className="flex-end">
+        {isLoading ? <Skeleton w={'4rem'} h={'1rem'}></Skeleton> : <>{value}</>}
+      </Box>
     </SimpleGrid>
   );
 };
 
 const PreviewStep = () => {
-  const { prevStep, nextStep } = useSendTokenModalStore();
+  const { address } = useAccount();
+  const signer = useEthersSigner();
+
+  const [isRejectedTransaction, setIsRejectedTransaction] = useState(false);
+  const [isConfirming, setIsConfirming] = useState(false);
+
+  const { prevStep, nextStep, sendAddress, tokenInfo, sendAmount } =
+    useSendTokenModalStore();
+  const {
+    isLoading: isEstimationLoading,
+    data: { gasEstimate, hasSufficientNativeBalance },
+  } = useGasEstimation(tokenInfo.tokenAddress, sendAddress, sendAmount);
+
+  const { mutate: sendTransactionMutate } = useSendTransactionMutation();
 
   const handlePrev = () => {
     prevStep();
   };
 
   const handleConfirm = () => {
-    nextStep();
+    // nextStep();
+    setIsRejectedTransaction(false);
+    setIsConfirming(true);
+
+    sendTransactionMutate(
+      {
+        tokenAddress: tokenInfo.tokenAddress,
+        sendAddress,
+        sendAmount,
+        signer,
+      },
+      {
+        onSuccess: (receipt) => {
+          setIsConfirming(false);
+          nextStep(true); // succeed
+          console.log('success', receipt);
+        },
+        onError: (error: TransactionError) => {
+          setIsConfirming(false);
+          if (error?.code === 'ACTION_REJECTED') {
+            setIsRejectedTransaction(true);
+          } else {
+            nextStep(false); // succeed
+          }
+        },
+      },
+    );
   };
 
   return (
@@ -49,23 +97,45 @@ const PreviewStep = () => {
             size="xl"
             fontSize={['1.5rem', '1.5rem', '2rem', '2rem']}
           >
-            333.2 MTJ
+            {`${sendAmount.toLocaleString()} ${tokenInfo.symbol}`}
           </Heading>
         </Box>
       </Box>
 
       {/* estimated transaction details */}
-      <PreviewDetailItem title="From" value="0xads...2323" />
-      <PreviewDetailItem title="To" value="0xads...2323" />
+      <PreviewDetailItem
+        title="From"
+        value={shrinkAddress(address as EthereumAddressType)}
+      />
+      <PreviewDetailItem title="To" value={shrinkAddress(sendAddress!)} />
       <PreviewDetailItem title="Network" value="Sepolia Testnet" />
-      <PreviewDetailItem title="Network Fee" value="0.00013ETH" />
+      <PreviewDetailItem
+        title="Network Fee"
+        value={`${formatNumberByFrac(Number(gasEstimate), 7)} Sepolia ETH`}
+        isLoading={isEstimationLoading}
+      />
+
+      <Box mt="1rem">
+        {isRejectedTransaction && (
+          <Alert status="error" mt="4px">
+            <AlertIcon />
+            <AlertTitle>{MSG.Error.RejectedTransaction}</AlertTitle>
+          </Alert>
+        )}
+      </Box>
 
       {/* buttons */}
       <Flex gap=".5rem" justifyContent="end" mt="2rem">
-        <Button size="lg" disabled={true} onClick={handlePrev}>
+        <Button size="lg" onClick={handlePrev}>
           Prev
         </Button>
-        <Button size="lg" disabled={true} onClick={handleConfirm}>
+        <Button
+          size="lg"
+          isLoading={isConfirming}
+          isDisabled={isEstimationLoading || !hasSufficientNativeBalance}
+          onClick={handleConfirm}
+          bg="main.accentColor"
+        >
           Confirm
         </Button>
       </Flex>
