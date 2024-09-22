@@ -49,6 +49,7 @@ class MoralisService {
     try {
       // return [];
 
+      /*
       const response = {
         raw: [
           {
@@ -98,13 +99,12 @@ class MoralisService {
           },
         ],
       };
+*/
 
-      /*
       const response = await Moralis.EvmApi.token.getWalletTokenBalances({
         chain,
         address,
       });
-*/
 
       return response.raw.map((item) => {
         return {
@@ -138,7 +138,7 @@ class MoralisService {
     chain: string = sepoliaChainId,
   ): Promise<WalletTransaction[]> => {
     try {
-      // return [];
+      /*
       const response = {
         raw: {
           page: 0,
@@ -260,14 +260,13 @@ class MoralisService {
           ],
         },
       };
+*/
 
-      /*
       const response = await Moralis.EvmApi.token.getWalletTokenTransfers({
         chain,
         order: 'DESC',
         address,
       });
-*/
 
       return response.raw.result.map((responseItem) => {
         return {
