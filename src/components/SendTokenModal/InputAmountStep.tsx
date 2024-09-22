@@ -12,6 +12,7 @@ import {
   SimpleGrid,
   Text,
 } from '@chakra-ui/react';
+import useSendTokenModalStore from '../../store/useSendTokenModalStore.ts';
 
 const AvailableTokenRow = () => {
   return (
@@ -41,6 +42,12 @@ const AvailableTokenRow = () => {
 };
 
 const InputAmountStep = () => {
+  const { nextStep } = useSendTokenModalStore();
+
+  const handleNext = () => {
+    nextStep();
+  };
+
   return (
     <div>
       <AvailableTokenRow />
@@ -68,7 +75,7 @@ const InputAmountStep = () => {
       </Box>
 
       <Flex justifyContent="end" mr="1rem" mt="2rem">
-        <Button size="lg" disabled={true}>
+        <Button size="lg" disabled={true} onClick={handleNext}>
           Next
         </Button>
       </Flex>

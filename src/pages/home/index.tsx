@@ -1,18 +1,32 @@
 import {
-  Text,
   Box,
+  Skeleton,
   Tab,
   TabList,
   TabPanel,
   TabPanels,
   Tabs,
-  Heading,
+  Text,
 } from '@chakra-ui/react';
 import TokensTab from './components/TokensTab';
 import TransactionsTab from './components/TransactionsTab';
 import SendTokenModal from '../../components/SendTokenModal/SendTokenModal';
+import { useAccount } from 'wagmi';
+import useWalletBalances from '../../hooks/useWalletBalances.ts';
+import { useEffect } from 'react';
+import useWalletStore from '../../store/useWalletStore.ts';
 
 const HomePage = () => {
+  const { address } = useAccount();
+  const matijaTokenBalance = useWalletStore(
+    (state) => state.matijaTokenBalance,
+  );
+  const { isLoading, data } = useWalletBalances(address);
+
+  useEffect(() => {
+    console.log('data, isLoading', data, isLoading);
+  }, [data, isLoading]);
+
   return (
     <div>
       <Box mt={'2rem'} mb={'2rem'}>
@@ -23,9 +37,16 @@ const HomePage = () => {
         >
           Balance
         </Text>
-        <Heading as="h1" size="xl" fontSize={['2rem', '2rem', '4rem', '4rem']}>
-          234234 MTJ
-        </Heading>
+        <Skeleton
+          isLoaded={!isLoading}
+          minHeight="5rem"
+          w="200px"
+          display="inline-block"
+        >
+          <Box as="span" fontSize={['2rem', '2rem', '4rem', '4rem']}>
+            {matijaTokenBalance} MTJ
+          </Box>
+        </Skeleton>
       </Box>
 
       <Tabs>

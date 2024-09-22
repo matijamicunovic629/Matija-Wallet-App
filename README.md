@@ -1,5 +1,2 @@
-# Example React vite PWA
-
-https://francochan.co/example-react-vite-pwa/
-
-[dev.to post](https://dev.to/iamfranco/deploy-react-vite-pwa-to-github-pages-35i)
+# Matija Token
+https://sepolia.etherscan.io/address/0x703606c6e30b84570a4b85c5cac30632d763e12c#code

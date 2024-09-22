@@ -15,7 +15,7 @@ import PreviewStep from './PreviewStep.tsx';
 
 const SendTokenModal = () => {
   // const { isOpen, onClose } = useDisclosure();
-  const { isOpen, closeModal } = useSendTokenModalStore();
+  const { stepIndex, isOpen, closeModal } = useSendTokenModalStore();
 
   const modalSize = useBreakpointValue({ base: 'full', md: 'md' });
   const modalFullScreen = useBreakpointValue({ base: true, md: false });
@@ -33,9 +33,9 @@ const SendTokenModal = () => {
           <ModalHeader>Send Token</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <InputAmountStep />
-            <PreviewStep />
-            <TransactionStatusStep />
+            {stepIndex === 0 && <InputAmountStep />}
+            {stepIndex === 1 && <PreviewStep />}
+            {stepIndex === 2 && <TransactionStatusStep />}
           </ModalBody>
 
           <ModalFooter></ModalFooter>

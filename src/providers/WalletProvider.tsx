@@ -5,10 +5,11 @@ import { WagmiProvider } from 'wagmi';
 import { sepolia } from 'wagmi/chains';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { rainbowKitTheme } from '../styles/chakraTheme.ts';
+import { Config } from '../constants';
 
 const config = getDefaultConfig({
   appName: 'Matija Wallet',
-  projectId: '78547180669ff5ad9842a42256608cac',
+  projectId: Config.RainbowProjectId,
   chains: [sepolia],
 });
 

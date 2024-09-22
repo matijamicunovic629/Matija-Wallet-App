@@ -1,5 +1,6 @@
 import { Box, Button, Flex, Heading, SimpleGrid } from '@chakra-ui/react';
 import SendBadge from '../StatusBadges/sendBadge.tsx';
+import useSendTokenModalStore from '../../store/useSendTokenModalStore.ts';
 
 interface PreviewDetailItemProps {
   title: string;
@@ -24,6 +25,16 @@ const PreviewDetailItem = ({ title, value }: PreviewDetailItemProps) => {
 };
 
 const PreviewStep = () => {
+  const { prevStep, nextStep } = useSendTokenModalStore();
+
+  const handlePrev = () => {
+    prevStep();
+  };
+
+  const handleConfirm = () => {
+    nextStep();
+  };
+
   return (
     <div>
       <Box>
@@ -51,10 +62,10 @@ const PreviewStep = () => {
 
       {/* buttons */}
       <Flex gap=".5rem" justifyContent="end" mt="2rem">
-        <Button size="lg" disabled={true}>
+        <Button size="lg" disabled={true} onClick={handlePrev}>
           Prev
         </Button>
-        <Button size="lg" disabled={true}>
+        <Button size="lg" disabled={true} onClick={handleConfirm}>
           Confirm
         </Button>
       </Flex>

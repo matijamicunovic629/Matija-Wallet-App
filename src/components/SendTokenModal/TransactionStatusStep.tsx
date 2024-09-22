@@ -2,12 +2,18 @@ import { Text, Box, Button, Heading } from '@chakra-ui/react';
 import FailedBadge from '../StatusBadges/failedBadge.tsx';
 import SuccessBadge from '../StatusBadges/successBadge.tsx';
 import { MSG } from '../../constants';
+import useSendTokenModalStore from '../../store/useSendTokenModalStore.ts';
 
 const TransactionStatusStep = () => {
+  const { closeModal } = useSendTokenModalStore();
   const isSuccess = true;
   const statusMessage = isSuccess
     ? MSG.TransactionStatus.success
     : MSG.TransactionStatus.failed;
+
+  const handleOk = () => {
+    closeModal();
+  };
 
   return (
     <div>
@@ -51,7 +57,7 @@ const TransactionStatusStep = () => {
 
       {/* buttons */}
       <Box gap=".5rem" mt="2rem">
-        <Button w="100%" borderRadius="1rem">
+        <Button w="100%" borderRadius="1rem" onClick={handleOk}>
           Ok
         </Button>
         <Button w="100%" borderRadius="1rem" mt=".5rem">
