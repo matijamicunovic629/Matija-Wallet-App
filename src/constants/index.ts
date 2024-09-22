@@ -8,6 +8,8 @@ export const MSG = {
   },
   Error: {
     RejectedTransaction: 'User Rejected Transaction',
+    InsufficientNativeBalance:
+      "You don't have enough native balance to pay gas fee",
   },
 };
 

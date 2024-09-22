@@ -96,7 +96,7 @@ const SideBar = () => {
             display={navSize == 'small' ? 'none' : 'flex'}
           >
             <Heading as="h3" size="sm">
-              Matija Micunovic
+              ❤️ by Matija Micunovic
             </Heading>
           </Flex>
         </Flex>

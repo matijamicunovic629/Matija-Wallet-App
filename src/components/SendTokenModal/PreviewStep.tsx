@@ -132,6 +132,12 @@ const PreviewStep = () => {
       />
 
       <Box mt="1rem">
+        {!hasSufficientNativeBalance && (
+          <Alert status="error" mt="4px">
+            <AlertIcon />
+            <AlertTitle>{MSG.Error.InsufficientNativeBalance}</AlertTitle>
+          </Alert>
+        )}
         {isRejectedTransaction && (
           <Alert status="error" mt="4px">
             <AlertIcon />

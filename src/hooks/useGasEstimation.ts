@@ -54,10 +54,6 @@ const useGasEstimation = (
       // Check if the native balance is sufficient to cover the gas cost
       const hasSufficientNativeBalance = nativeBalance > estimatedGasCost;
 
-      if (!hasSufficientNativeBalance) {
-        throw new Error('Insufficient native balance to cover the gas cost');
-      }
-
       return {
         gasLimit: defaultGasLimit, // estimatedGasLimit,
         gasPrice: estimatedGasPrice,
