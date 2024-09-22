@@ -63,7 +63,7 @@ const TokenRow = React.memo(({ item, onClick }: TokenRowProps) => {
         alignItems="center"
         justifyContent="end"
       >
-        <img src={`/public/template-chart.svg`} alt="Chart" />
+        <img src={`/template-chart.svg`} alt="Chart" />
       </Box>
     </SimpleGrid>
   );

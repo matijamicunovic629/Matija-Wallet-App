@@ -19,10 +19,10 @@ export const Config = {
 
 export const sepoliaChainId = '0xaa36a7';
 
-export const unknownTokenImgUrl = '/public/unknown-token.jpeg';
+export const unknownTokenImgUrl = '/unknown-token.jpeg';
 
 export const mapAddressToTokenImgUrl: Record<string, string> = {
-  [Config.MatijaTokenAddress]: '/public/matija-token.png',
+  [Config.MatijaTokenAddress]: '/matija-token.png',
 };
 
 export const defaultTokenInfo = {
