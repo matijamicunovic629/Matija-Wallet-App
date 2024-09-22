@@ -1,9 +1,23 @@
-import { Alert, AlertIcon, AlertTitle, Box, Button, Flex, Heading, SimpleGrid, Skeleton } from '@chakra-ui/react';
+import {
+  Alert,
+  AlertIcon,
+  AlertTitle,
+  Box,
+  Button,
+  Flex,
+  Heading,
+  SimpleGrid,
+  Skeleton,
+} from '@chakra-ui/react';
 import SendBadge from '../StatusBadges/sendBadge.tsx';
 import useSendTokenModalStore from '../../store/useSendTokenModalStore.ts';
 import { useAccount } from 'wagmi';
 import { formatNumberByFrac, shrinkAddress } from '../../utils';
-import { EthereumAddressType, PreviewDetailItemProps, TransactionError } from '../../types';
+import {
+  EthereumAddressType,
+  PreviewDetailItemProps,
+  TransactionError,
+} from '../../types';
 import useGasEstimation from '../../hooks/useGasEstimation.ts';
 import { useEthersSigner } from '../../hooks/useEthersProvider.ts';
 import { useSendTransactionMutation } from '../../hooks/useSendTransactionMutation.ts';
@@ -44,7 +58,7 @@ const PreviewStep = () => {
     useSendTokenModalStore();
   const {
     isLoading: isEstimationLoading,
-    data: { gasEstimate, hasSufficientNativeBalance },
+    data: { gasEstimate, hasSufficientNativeBalance, gasLimit },
   } = useGasEstimation(tokenInfo.tokenAddress, sendAddress, sendAmount);
 
   const { mutate: sendTransactionMutate } = useSendTransactionMutation();
@@ -64,6 +78,7 @@ const PreviewStep = () => {
         sendAddress,
         sendAmount,
         signer,
+        gasLimit,
       },
       {
         onSuccess: (receipt) => {

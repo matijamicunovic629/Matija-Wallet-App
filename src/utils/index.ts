@@ -50,6 +50,18 @@ export const shrinkAddress = (address: string): string => {
   return `${address.slice(0, 6)}...${address.slice(-4)}`;
 };
 
+/**
+ * Formats a given number to a specified number of decimal places.
+ *
+ * @param {number | undefined} num - The number to be formatted. If undefined, defaults to '0'.
+ * @param {number} [fixedCount=2] - The number of decimal places to format the number to. Default is 2.
+ * @returns {string} - The number formatted to the specified decimal places as a string.
+ *
+ * @remarks
+ * - If the input number is an integer or its absolute value is between 0.01 and 0.000001,
+ *   determines the number of digits after the decimal point needed for precision, then adds 2 more decimal places.
+ * - Uses the `Math.round` method to ensure proper rounding according to the specified decimal places.
+ */
 export const formatNumberByFrac = (
   num: number | undefined,
   fixedCount: number = 2,

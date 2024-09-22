@@ -40,7 +40,10 @@ const useGasEstimation = (
       const estimatedGas = (await provider?.estimateGas(tx)) ?? 0n;
       console.log('estimatedGas', estimatedGas);
 
-      const estimatedGasCost = estimatedGas * (gasPriceData.gasPrice ?? 0n);
+      const maxPriorityFee = ethers.parseUnits('1.5', 'gwei');
+
+      const estimatedGasCost =
+        estimatedGas * ((gasPriceData.gasPrice ?? 0n) + maxPriorityFee);
 
       // Fetch Native Balance of From Address
       const nativeBalance =
@@ -54,6 +57,7 @@ const useGasEstimation = (
       }
 
       return {
+        gasLimit: estimatedGas,
         gasEstimate: ethers.formatEther(estimatedGasCost.toString()),
         hasSufficientNativeBalance,
       };
@@ -74,7 +78,11 @@ const useGasEstimation = (
   return {
     isLoading,
     refetch,
-    data: data ?? { gasEstimate: 0, hasSufficientNativeBalance: true },
+    data: data ?? {
+      gasEstimate: 0,
+      hasSufficientNativeBalance: true,
+      gasLimit: 210000n,
+    },
   };
 };
 export default useGasEstimation;
