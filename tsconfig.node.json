@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "types": ["jest", "node", "vitest/globals"],
     "composite": true,
     "skipLibCheck": true,
     "module": "ESNext",

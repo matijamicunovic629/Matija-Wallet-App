@@ -1,4 +1,3 @@
-import { getTokenImgUrlByAddress } from '../utils';
 import { ethers } from 'ethers';
 
 export const MSG = {
@@ -24,14 +23,16 @@ export const sepoliaChainId = '0xaa36a7';
 
 export const unknownTokenImgUrl = '/unknown-token.jpeg';
 
+export const MatijaTokenImgUrl = '/matija-token.png';
+
 export const mapAddressToTokenImgUrl: Record<string, string> = {
-  [Config.MatijaTokenAddress]: '/matija-token.png',
+  [Config.MatijaTokenAddress]: MatijaTokenImgUrl,
 };
 
 export const defaultTokenInfo = {
   tokenAddress: Config.MatijaTokenAddress,
   symbol: 'MTJ',
-  logoUrl: getTokenImgUrlByAddress(Config.MatijaTokenAddress),
+  logoUrl: MatijaTokenImgUrl,
   decimals: 9,
 };
 

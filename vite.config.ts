@@ -53,4 +53,10 @@ export default defineConfig({
     host: '0.0.0.0',
     port: 5173,
   },
+  // Add this part for vitest configuration
+  test: {
+    globals: true,
+    environment: 'jsdom',
+    setupFiles: './src/setupTests.ts', // Adjust this path based on your project structure
+  },
 });
