@@ -3,14 +3,14 @@ import '@testing-library/jest-dom';
 import InputAmountStep from './InputAmountStep';
 import useSendTokenModalStore from '../../store/useSendTokenModalStore';
 import useTokenBalance from '../../hooks/useTokenBalance';
-import { vi } from 'vitest';
+import { vi, Mock } from 'vitest';
 
 // Mocking hooks
 vi.mock('../../store/useSendTokenModalStore');
 vi.mock('../../hooks/useTokenBalance');
 
 const setupMocks = () => {
-  useSendTokenModalStore.mockReturnValue({
+  (useSendTokenModalStore as unknown as Mock).mockReturnValue({
     nextStep: vi.fn(),
     tokenInfo: { tokenAddress: '0x123', logoUrl: '', symbol: 'ETH' },
     sendAmount: 0,
@@ -19,7 +19,7 @@ const setupMocks = () => {
     setSendAddress: vi.fn(),
   });
 
-  useTokenBalance.mockReturnValue({
+  (useTokenBalance as unknown as Mock).mockReturnValue({
     isLoading: false,
     balance: 100,
   });

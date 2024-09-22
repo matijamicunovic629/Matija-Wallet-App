@@ -5,7 +5,7 @@ import { useAccount } from 'wagmi';
 import useGasEstimation from '../../hooks/useGasEstimation';
 import { useEthersSigner } from '../../hooks/useEthersProvider';
 import { useSendTransactionMutation } from '../../hooks/useSendTransactionMutation';
-import { vi } from 'vitest';
+import { vi, Mock } from 'vitest';
 
 // Mocking the modules
 vi.mock('../../store/useSendTokenModalStore', () => ({
@@ -27,11 +27,12 @@ vi.mock('../../hooks/useSendTransactionMutation', () => ({
 }));
 
 describe('PreviewStep Component', () => {
-  const mockUseSendTokenModalStore = useSendTokenModalStore as vi.Mock;
-  const mockUseAccount = useAccount as vi.Mock;
-  const mockUseGasEstimation = useGasEstimation as vi.Mock;
-  const mockUseEthersSigner = useEthersSigner as vi.Mock;
-  const mockUseSendTransactionMutation = useSendTransactionMutation as vi.Mock;
+  const mockUseSendTokenModalStore = useSendTokenModalStore as unknown as Mock;
+  const mockUseAccount = useAccount as unknown as Mock;
+  const mockUseGasEstimation = useGasEstimation as unknown as Mock;
+  const mockUseEthersSigner = useEthersSigner as unknown as Mock;
+  const mockUseSendTransactionMutation =
+    useSendTransactionMutation as unknown as Mock;
 
   beforeEach(() => {
     mockUseSendTokenModalStore.mockReturnValue({
