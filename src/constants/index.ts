@@ -41,3 +41,4 @@ export const defaultMaxPriorityFee = ethers.parseUnits('1.5', 'gwei');
 export const defaultGasLimit = 210000n;
 
 export const MORALIS_API_URL = 'https://deep-index.moralis.io/api/';
+export const DELAYED_API_CALL_TIME = 2000;

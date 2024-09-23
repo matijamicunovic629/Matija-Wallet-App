@@ -1,7 +1,11 @@
 import { Text, Box, Button, Heading } from '@chakra-ui/react';
 import FailedBadge from '../StatusBadges/failedBadge.tsx';
 import SuccessBadge from '../StatusBadges/successBadge.tsx';
-import { defaultExplorerUrl, MSG } from '../../constants';
+import {
+  defaultExplorerUrl,
+  DELAYED_API_CALL_TIME,
+  MSG,
+} from '../../constants';
 import useSendTokenModalStore from '../../store/useSendTokenModalStore.ts';
 import { shrinkAddress } from '../../utils';
 import useWalletBalances from '../../hooks/useWalletBalances.ts';
@@ -27,7 +31,7 @@ const TransactionStatusStep = () => {
     if (isSuccess) {
       // refresh all wallet balances and transactions
       refetchWalletBalances();
-      refetchWalletTransactions();
+      setTimeout(() => refetchWalletTransactions(), DELAYED_API_CALL_TIME);
     }
   }, []);
 
