@@ -6,6 +6,8 @@ export default defineConfig({
   plugins: [
     VitePWA({
       registerType: 'autoUpdate',
+      srcDir: 'src',
+      filename: 'service-worker.ts',
       includeAssets: ['favicon.ico', 'apple-touch-icon.png'],
       manifest: {
         name: 'Matija Wallet',
@@ -24,6 +26,10 @@ export default defineConfig({
             type: 'image/png',
           },
         ],
+      },
+      strategies: 'injectManifest',
+      injectManifest: {
+        globPatterns: ['**/*.{js,css,html,png,jpg,jpeg,svg,gif}'],
       },
     }),
     nodePolyfills(),

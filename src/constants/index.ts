@@ -37,6 +37,7 @@ export const defaultTokenInfo = {
 };
 
 export const defaultExplorerUrl = `https://sepolia.etherscan.io/`;
-
 export const defaultMaxPriorityFee = ethers.parseUnits('1.5', 'gwei');
 export const defaultGasLimit = 210000n;
+
+export const MORALIS_API_URL = 'https://deep-index.moralis.io/api/';

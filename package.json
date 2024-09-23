@@ -32,6 +32,7 @@
     "vite-plugin-node-polyfills": "^0.22.0",
     "vite-plugin-pwa": "^0.17.2",
     "wagmi": "^2.12.12",
+    "workbox-webpack-plugin": "^7.1.0",
     "zustand": "^5.0.0-rc.2"
   },
   "devDependencies": {
