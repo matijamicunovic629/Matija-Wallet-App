@@ -40,7 +40,10 @@ describe('PreviewStep Component', () => {
       nextStep: vi.fn(),
       setTransactionHash: vi.fn(),
       sendAddress: '0x87590744785D6CffCE10688331BA669ac5f69b39',
-      tokenInfo: { tokenAddress: '0xTokenAddress', symbol: 'TKN' },
+      tokenInfo: {
+        tokenAddress: '0x703606c6e30b84570a4b85c5cac30632d763e12c',
+        symbol: 'MTJ',
+      },
       sendAmount: 100,
     });
 
@@ -64,7 +67,7 @@ describe('PreviewStep Component', () => {
 
   it('renders the component without crashing', () => {
     render(<PreviewStep />);
-    expect(screen.getByText(/100 TKN/)).toBeInTheDocument();
+    expect(screen.getByText(/100 MTJ/)).toBeInTheDocument();
     expect(screen.getByText(/Sepolia Testnet/)).toBeInTheDocument();
     expect(screen.getByText(/Confirm/)).toBeInTheDocument();
     expect(screen.getByText(/Prev/)).toBeInTheDocument();

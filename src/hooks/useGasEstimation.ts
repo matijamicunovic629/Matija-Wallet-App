@@ -81,7 +81,7 @@ const useGasEstimation = (
       gasEstimate: 0n,
       gasPrice: 0n,
       hasSufficientNativeBalance: true,
-      gasLimit: 210000n,
+      gasLimit: defaultGasLimit,
     },
   };
 };
