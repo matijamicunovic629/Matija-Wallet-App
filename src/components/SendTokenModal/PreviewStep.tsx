@@ -99,7 +99,7 @@ const PreviewStep = () => {
           if (error?.code === 'ACTION_REJECTED') {
             setIsRejectedTransaction(true);
           } else {
-            nextStep(false); // succeed
+            nextStep(false);
           }
         },
       },

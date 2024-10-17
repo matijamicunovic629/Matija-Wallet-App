@@ -18,6 +18,8 @@ import useTokenBalance from '../../hooks/useTokenBalance.ts';
 import { AvailableTokenRowProps, EthereumAddressType } from '../../types';
 import { useMemo, useState } from 'react';
 import { isValidWalletAddress } from '../../utils';
+import { useEnsAddress } from 'wagmi';
+import { normalize } from 'viem/ens';
 
 const AvailableTokenRow = ({
   tokenInfo,
@@ -71,9 +73,21 @@ const InputAmountStep = () => {
     sendAddress as string,
   );
 
+  const ensAddressDataResponse = useEnsAddress({
+    name: normalize(inputAddress),
+  });
+
+  const retrievedEnsAddress = ensAddressDataResponse?.data ?? '';
+  console.log('retrievedEnsAddress', retrievedEnsAddress);
+
   const handleNext = () => {
+    const resultAddress = retrievedEnsAddress
+      ? retrievedEnsAddress
+      : inputAddress;
+
     setSendAmount(inputAmount);
-    setSendAddress(inputAddress as EthereumAddressType);
+    setSendAddress(resultAddress as EthereumAddressType);
+    // setSendAddress(inputAddress as EthereumAddressType);
     nextStep();
   };
 
@@ -92,8 +106,11 @@ const InputAmountStep = () => {
   const isInsufficientBalance = inputAmount > balance;
   const isAmountGreaterThanZero = inputAmount > 0;
   const isInvalidWalletAddress = useMemo(() => {
-    return !isValidWalletAddress(inputAddress);
-  }, [inputAddress]);
+    return (
+      !isValidWalletAddress(inputAddress) &&
+      !isValidWalletAddress(retrievedEnsAddress)
+    );
+  }, [inputAddress, retrievedEnsAddress]);
 
   return (
     <div>
